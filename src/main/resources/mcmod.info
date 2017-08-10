@@ -1,0 +1,15 @@
+[
+{
+  "modid": "multitwitchwhitelist-forge",
+  "name": "Multi Twitch Whitelist",
+  "description": "Twitch subscription whitelisting for forge",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://whitelist.jaffa.cat",
+  "updateUrl": "",
+  "authorList": ["Jaffa"],
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
