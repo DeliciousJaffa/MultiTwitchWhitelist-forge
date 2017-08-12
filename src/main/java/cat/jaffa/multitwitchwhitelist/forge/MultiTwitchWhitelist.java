@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(modid = MultiTwitchWhitelist.MODID, version = MultiTwitchWhitelist.VERSION, acceptableRemoteVersions = "*")
 public class MultiTwitchWhitelist {
     public static final String MODID = "multitwitchwhitelist-forge";
-    public static final String VERSION = "0.1";
+    public static final String VERSION = "0.2";
 
     @Instance(MODID)
     public static MultiTwitchWhitelist instance;
