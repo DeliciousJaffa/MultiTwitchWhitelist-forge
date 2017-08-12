@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.logging.log4j.Logger;
@@ -58,14 +59,19 @@ public class MultiTwitchWhitelist {
     void loadConfig() {
         cfg.load();
         Enabled = cfg.get(Configuration.CATEGORY_GENERAL, "Enabled", true).getBoolean(true);
-        cfg.get(Configuration.CATEGORY_GENERAL, "ClientID", "Client ID").getString();
-        cfg.get(Configuration.CATEGORY_GENERAL, "ClientSecret", "Client Secret").getString();
+        ClientID = cfg.get(Configuration.CATEGORY_GENERAL, "ClientID", "Client ID").getString();
+        ClientSecret = cfg.get(Configuration.CATEGORY_GENERAL, "ClientSecret", "Client Secret").getString();
         //cfg.get(Configuration.CATEGORY_GENERAL, "ChangeDisplayname", true).getBoolean(true);
         //cfg.get(Configuration.CATEGORY_GENERAL, "ChangeListname", true).getBoolean(true);
-        cfg.get(Configuration.CATEGORY_GENERAL, "TryCacheOnFail", true).getBoolean(true);
-        cfg.get(Configuration.CATEGORY_GENERAL, "KickOnFail", true).getBoolean(true);
-        cfg.get("Debug", "apiURL", "default").getString();
+        TryCacheOnFail = cfg.get(Configuration.CATEGORY_GENERAL, "TryCacheOnFail", true).getBoolean(true);
+        KickOnFail = cfg.get(Configuration.CATEGORY_GENERAL, "KickOnFail", true).getBoolean(true);
+        DebugapiURL = cfg.get("Debug", "apiURL", "default").getString();
         cfg.save();
+    }
+
+    @Mod.EventHandler
+    public void serverStart(FMLServerStartingEvent e) {
+        LoginListener.server = e.getServer();
     }
 
     @EventHandler
@@ -93,8 +99,8 @@ public class MultiTwitchWhitelist {
     @EventHandler
     public void postinit(FMLPostInitializationEvent event) {
         if (!event.getSide().isServer()) return;
-
         MinecraftForge.EVENT_BUS.register(new LoginListener());
+        //FMLCommonHandler.instance().handleServerHandshake();
     }
 
 }
