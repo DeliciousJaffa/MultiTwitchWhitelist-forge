@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class MultiTwitchWhitelist extends DummyModContainer {
     public static final String MODNAME = "MultiTwitchWhitelist";
     public static final String MODID = "multitwitchwhitelist-forge";
-    public static final String MODVERSION = "0.2";
+    public static final String MODVERSION = "0.2.1";
 
     public MultiTwitchWhitelist() {
         super(new ModMetadata());
