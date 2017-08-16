@@ -31,7 +31,7 @@ public class MultiTwitchWhitelist extends DummyModContainer {
         meta.credits = "";
         meta.authorList = Arrays.asList("Jaffa");
         meta.description = "";
-        meta.url = "https://github.com/DeliciousJaffa/MultiTwitchWhitelist-forge";;
+        meta.url = "https://github.com/DeliciousJaffa/MultiTwitchWhitelist-forge";
         meta.screenshots = new String[0];
         meta.logoFile = "";
         meta.parent = "multitwitchwhitelist-forge";
