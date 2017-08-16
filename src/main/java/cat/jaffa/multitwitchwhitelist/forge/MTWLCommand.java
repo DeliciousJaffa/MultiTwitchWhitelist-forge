@@ -15,12 +15,12 @@ import net.minecraftforge.server.permission.PermissionAPI;
 public class MTWLCommand extends CommandBase {
 
     @Override
-    public String getName() {
+    public String getCommandName() {
         return "mtwl";
     }
 
     @Override
-    public String getUsage(ICommandSender sender) {
+    public String getCommandUsage(ICommandSender sender) {
         return "/mtwl enable | disable | reload";
     }
 
@@ -31,9 +31,9 @@ public class MTWLCommand extends CommandBase {
                 case "reload": {
                     MultiTwitchWhitelist.instance.loadConfig();
                     MultiTwitchWhitelist.validKey = true;
-                    for (EntityPlayerMP player : server.getPlayerList().getPlayers()) {
+                    for (EntityPlayerMP player : server.getPlayerList().getPlayerList()) {
                         if (PermissionAPI.hasPermission(player,"mtwl.admin")) {
-                            player.sendMessage(new TextComponentString("MultiTwitchWhitelist reloaded by " + sender.getName()));
+                            player.addChatMessage(new TextComponentString("MultiTwitchWhitelist reloaded by " + sender.getName()));
                         }
                     }
                     MultiTwitchWhitelist.log.info("Reloaded by command (" + sender.getName() + ")");
@@ -43,34 +43,34 @@ public class MTWLCommand extends CommandBase {
                     if (!MultiTwitchWhitelist.Enabled) {
                         MultiTwitchWhitelist.softEnable(true);
                         MultiTwitchWhitelist.validKey = true;
-                        for (EntityPlayerMP player : server.getPlayerList().getPlayers()) {
+                        for (EntityPlayerMP player : server.getPlayerList().getPlayerList()) {
                             if (PermissionAPI.hasPermission(player,"mtwl.admin")) {
-                                player.sendMessage(new TextComponentString("MultiTwitchWhitelist enabled by " + sender.getName()));
+                                player.addChatMessage(new TextComponentString("MultiTwitchWhitelist enabled by " + sender.getName()));
                             }
                         }
                         MultiTwitchWhitelist.log.info("Enabled by command (" + sender.getName() + ")");
-                    } else sender.sendMessage(new TextComponentString("MultiTwitchWhitelist is already enabled."));
+                    } else sender.addChatMessage(new TextComponentString("MultiTwitchWhitelist is already enabled."));
                 }
                 break;
                 case "disable": {
                     if (MultiTwitchWhitelist.Enabled) {
                         MultiTwitchWhitelist.softEnable(false);
-                        for (EntityPlayerMP player : server.getPlayerList().getPlayers()) {
+                        for (EntityPlayerMP player : server.getPlayerList().getPlayerList()) {
                             if (PermissionAPI.hasPermission(player,"mtwl.admin")) {
-                                player.sendMessage(new TextComponentString("MultiTwitchWhitelist disabled by " + sender.getName()));
+                                player.addChatMessage(new TextComponentString("MultiTwitchWhitelist disabled by " + sender.getName()));
                             }
                         }
                         MultiTwitchWhitelist.log.info("Disabled by command (" + sender.getName() + ")");
-                    } else sender.sendMessage(new TextComponentString("MultiTwitchWhitelist is already disabled."));
+                    } else sender.addChatMessage(new TextComponentString("MultiTwitchWhitelist is already disabled."));
                 }
                 break;
                 //TODO: Implement add/remove static whitelisting commands
                 default: {
-                    sender.sendMessage(new TextComponentString("Unknown command, check your spelling."));
+                    sender.addChatMessage(new TextComponentString("Unknown command, check your spelling."));
                 }
             }
         } else {
-            sender.sendMessage(new TextComponentString("Possible commands: enable, disable, reload"));
+            sender.addChatMessage(new TextComponentString("Possible commands: enable, disable, reload"));
         }
     }
 
