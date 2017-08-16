@@ -23,7 +23,7 @@ public class WhitelistDataCreator {
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
-        con.setRequestProperty("User-Agent", "MTWL-Forge-Mod/"+MultiTwitchWhitelist.VERSION);
+        con.setRequestProperty("User-Agent", "MTWL-Forge-Mod/"+MultiTwitchWhitelist.MODVERSION);
         con.setRequestProperty("api-client", MultiTwitchWhitelist.ClientID);
         con.setRequestProperty("api-secret", MultiTwitchWhitelist.ClientSecret);
 

@@ -1,9 +1,12 @@
 package cat.jaffa.multitwitchwhitelist.forge;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.DummyModContainer;
+import net.minecraftforge.fml.common.LoadController;
 import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -11,11 +14,39 @@ import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.logging.log4j.Logger;
 
-@Mod(name = MultiTwitchWhitelist.MODNAME, modid = MultiTwitchWhitelist.MODID, version = MultiTwitchWhitelist.VERSION, acceptableRemoteVersions = "*", serverSideOnly = true)
-public class MultiTwitchWhitelist {
+import java.util.Arrays;
+
+//@Mod(name = MultiTwitchWhitelist.MODNAME, modid = MultiTwitchWhitelist.MODID, version = MultiTwitchWhitelist.MODVERSION, acceptableRemoteVersions = "*", serverSideOnly = true)
+public class MultiTwitchWhitelist extends DummyModContainer {
     public static final String MODNAME = "MultiTwitchWhitelist";
     public static final String MODID = "multitwitchwhitelist-forge";
-    public static final String VERSION = "0.3";
+    public static final String MODVERSION = "0.2";
+
+    public MultiTwitchWhitelist() {
+        super(new ModMetadata());
+        ModMetadata meta = getMetadata();
+        meta.modId = MODID;
+        meta.name = MODNAME;
+        meta.version = MODVERSION;
+        meta.credits = "";
+        meta.authorList = Arrays.asList("Jaffa");
+        meta.description = "";
+        meta.url = "https://github.com/DeliciousJaffa/MultiTwitchWhitelist-forge";;
+        meta.screenshots = new String[0];
+        meta.logoFile = "";
+        meta.parent = "multitwitchwhitelist-forge";
+    }
+
+    @Override
+    public boolean registerBus(EventBus bus, LoadController loader) {
+        bus.register(this);
+        return true;
+    }
+
+    @Override
+    public Disableable canBeDisabled() {
+        return Disableable.NEVER;
+    }
 
     @Instance(MODID)
     public static MultiTwitchWhitelist instance;
@@ -46,7 +77,6 @@ public class MultiTwitchWhitelist {
     static final String msgNotSub = "Your Twitch account %s is not subscribed to the appropriate streamers.";
 
     static String getApiURL() {
-        String url = apiURL;
         if (DebugapiURL.equalsIgnoreCase("default")) {
             return apiURL;
         } else {
@@ -76,19 +106,20 @@ public class MultiTwitchWhitelist {
         cfg.save();
     }
 
-    @EventHandler
+    @Subscribe
     public void preinit(FMLPreInitializationEvent event) {
         log = event.getModLog();
-        //if (!event.getSide().isServer()) return;
+        log.info("MultiTwitchWhitelist Starting");
+        if (!event.getSide().isServer()) return;
 
         //Setup Config
         cfg = new Configuration(event.getSuggestedConfigurationFile());
         loadConfig();
     }
 
-    @EventHandler
+    @Subscribe
     public void init(FMLInitializationEvent event) {
-        //if (!event.getSide().isServer()) return;
+        if (!event.getSide().isServer()) return;
 
         PermissionAPI.registerNode("mtwl.admin", DefaultPermissionLevel.OP, "Grants access to administration commands of the plugin");
         PermissionAPI.registerNode("mtwl.bypass.list", DefaultPermissionLevel.OP, "Bypasses whitelist requirements");
@@ -98,7 +129,7 @@ public class MultiTwitchWhitelist {
         PermissionAPI.registerNode("mtwl.bypass.severe", DefaultPermissionLevel.NONE, "This permission should only be used when instructed");
     }
 
-    @EventHandler
+    @Subscribe
     public void serverStart(FMLServerStartingEvent event) {
         event.registerServerCommand(new MTWLCommand());
     }
