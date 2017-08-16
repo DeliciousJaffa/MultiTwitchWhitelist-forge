@@ -1,6 +1,7 @@
 package cat.jaffa.multitwitchwhitelist.forge;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mojang.authlib.GameProfile;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -14,7 +15,7 @@ import java.net.URL;
  */
 public class WhitelistDataCreator {
     private static WhitelistData fromURL(URL url) throws IOException {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
         /*
         InputStreamReader reader = new InputStreamReader(url.openStream());
         return gson.fromJson(reader,WhitelistData.class);
