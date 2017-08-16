@@ -1,8 +1,7 @@
 package cat.jaffa.multitwitchwhitelist.forge;
 
 import com.google.gson.Gson;
-import net.minecraft.entity.player.EntityPlayerMP;
-
+import com.mojang.authlib.GameProfile;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -24,7 +23,7 @@ public class WhitelistDataCreator {
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
-        con.setRequestProperty("User-Agent", "MTWL-Forge-Mod V"+MultiTwitchWhitelist.VERSION);
+        con.setRequestProperty("User-Agent", "MTWL-Forge-Mod/"+MultiTwitchWhitelist.VERSION);
         con.setRequestProperty("api-client", MultiTwitchWhitelist.ClientID);
         con.setRequestProperty("api-secret", MultiTwitchWhitelist.ClientSecret);
 
@@ -53,13 +52,13 @@ public class WhitelistDataCreator {
         return data;
 
     }
-    public static WhitelistData fromUser(EntityPlayerMP p) {
+    public static WhitelistData fromUser(GameProfile p) {
         try {
-            return fromURL(new URL(MultiTwitchWhitelist.getApiURL()+"/login/"+p.getUniqueID()));
+            return fromURL(new URL(MultiTwitchWhitelist.getApiURL()+"/login/"+p.getId()));
         } catch (IOException e) {
             MultiTwitchWhitelist.log.warn(String.format(
                     "Error getting details for user %s(%s): %s (%s)",
-                    p.getName(),p.getUniqueID(),e.getClass().getName(),e.getMessage())
+                    p.getName(),p.getId(),e.getClass().getName(),e.getMessage())
             );
             return null;
         }

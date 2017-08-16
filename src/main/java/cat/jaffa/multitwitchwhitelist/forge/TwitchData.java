@@ -1,6 +1,6 @@
 package cat.jaffa.multitwitchwhitelist.forge;
 
-import net.minecraft.entity.player.EntityPlayer;
+import com.mojang.authlib.GameProfile;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -15,31 +15,31 @@ import java.util.UUID;
 
 public class TwitchData {
     private static HashMap<UUID,WhitelistData> data = new HashMap<UUID,WhitelistData>();
-    public static WhitelistData get (EntityPlayer player)
+    public static WhitelistData get (GameProfile player)
     {
-        return data.get(player.getUniqueID());
+        return data.get(player.getId());
     }
-    static void set (EntityPlayer player, WhitelistData obj){
-        data.put(player.getUniqueID(),obj);
-    }
-
-    public static int getID (EntityPlayer player)
-    {
-        return data.get(player.getUniqueID()).getUser().getId();
+    static void set (GameProfile player, WhitelistData obj){
+        data.put(player.getId(),obj);
     }
 
-    public static String getUsername (EntityPlayer player)
+    public static int getID (GameProfile player)
     {
-        return data.get(player.getUniqueID()).getUser().getUsername();
+        return data.get(player.getId()).getUser().getId();
     }
 
-    public static String getDisplayname (EntityPlayer player)
+    public static String getUsername (GameProfile player)
     {
-        return data.get(player.getUniqueID()).getUser().getDisplayname();
+        return data.get(player.getId()).getUser().getUsername();
     }
 
-    public static Date getCreated (EntityPlayer player)
+    public static String getDisplayname (GameProfile player)
     {
-        return data.get(player.getUniqueID()).getUser().getAccountcreation();
+        return data.get(player.getId()).getUser().getDisplayname();
+    }
+
+    public static Date getCreated (GameProfile player)
+    {
+        return data.get(player.getId()).getUser().getAccountcreation();
     }
 }
