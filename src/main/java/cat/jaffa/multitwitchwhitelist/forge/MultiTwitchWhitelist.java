@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import org.apache.logging.log4j.Logger;
@@ -53,6 +54,15 @@ public class MultiTwitchWhitelist {
         }
     }
 
+
+
+    static void softEnable(Boolean state) {
+        Enabled = state;
+        cfg.load();
+        cfg.get(Configuration.CATEGORY_GENERAL, "Enabled", true).set(state);
+        cfg.save();
+    }
+
     void loadConfig() {
         cfg.load();
         Enabled = cfg.get(Configuration.CATEGORY_GENERAL, "Enabled", true).getBoolean(true);
@@ -80,11 +90,16 @@ public class MultiTwitchWhitelist {
     public void init(FMLInitializationEvent event) {
         //if (!event.getSide().isServer()) return;
 
-        PermissionAPI.registerNode("mtwl.bypass.admin", DefaultPermissionLevel.OP, "Grants access to administration commands of the plugin");
+        PermissionAPI.registerNode("mtwl.admin", DefaultPermissionLevel.OP, "Grants access to administration commands of the plugin");
         PermissionAPI.registerNode("mtwl.bypass.list", DefaultPermissionLevel.OP, "Bypasses whitelist requirements");
         PermissionAPI.registerNode("mtwl.bypass.ban", DefaultPermissionLevel.OP, "Bypasses MultiTwitchWhitelist bans.");
         PermissionAPI.registerNode("mtwl.bypass.fail", DefaultPermissionLevel.OP, "Bypasses when connection failed (Dangerous, will allow uncached player who has ban to join)");
         PermissionAPI.registerNode("mtwl.bypass.register", DefaultPermissionLevel.NONE, "Allows the user to bypass connecting their account");
         PermissionAPI.registerNode("mtwl.bypass.severe", DefaultPermissionLevel.NONE, "This permission should only be used when instructed");
+    }
+
+    @EventHandler
+    public void serverStart(FMLServerStartingEvent event) {
+        event.registerServerCommand(new MTWLCommand());
     }
 }
