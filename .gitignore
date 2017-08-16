@@ -78,3 +78,10 @@ run/
 .idea/
 gradlew
 gradlew.bat
+build/tmp/
+.gradle/
+build/resources/main/LICENSE
+src/production/
+build/sources/
+build/resources/
+build/retromapping/replacedMain.rangemap

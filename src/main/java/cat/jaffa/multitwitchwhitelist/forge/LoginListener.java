@@ -13,6 +13,7 @@ import java.util.List;
 public class LoginListener {
 
     public static String serverLogin(GameProfile p) {
+        System.out.println("serverLogin called for "+p.getId());
         if (!MultiTwitchWhitelist.Enabled) return null;
         if (MultiTwitchWhitelist.validKey) {
             //Grab data from API
