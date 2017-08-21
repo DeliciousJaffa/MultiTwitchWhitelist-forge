@@ -29,7 +29,7 @@ public class MTWLCommand extends CommandBase {
         if (args.length > 0) {
             switch (args[0].toLowerCase()) {
                 case "reload": {
-                    MultiTwitchWhitelist.instance.loadConfig();
+                    MultiTwitchWhitelist.loadConfig();
                     MultiTwitchWhitelist.validKey = true;
                     for (EntityPlayerMP player : server.getPlayerList().getPlayers()) {
                         if (PermissionAPI.hasPermission(player,"mtwl.admin")) {
