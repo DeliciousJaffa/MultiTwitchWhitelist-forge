@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class MultiTwitchWhitelist extends DummyModContainer {
     public static final String MODNAME = "MultiTwitchWhitelist";
     public static final String MODID = "multitwitchwhitelist-forge";
-    public static final String MODVERSION = "0.2.1";
+    public static final String MODVERSION = "0.2.2";
 
     public MultiTwitchWhitelist() {
         super(new ModMetadata());
@@ -93,7 +93,7 @@ public class MultiTwitchWhitelist extends DummyModContainer {
         cfg.save();
     }
 
-    void loadConfig() {
+    static void loadConfig() {
         cfg.load();
         Enabled = cfg.get(Configuration.CATEGORY_GENERAL, "Enabled", true).getBoolean(true);
         ClientID = cfg.get(Configuration.CATEGORY_GENERAL, "ClientID", "Client ID").getString();
@@ -115,6 +115,7 @@ public class MultiTwitchWhitelist extends DummyModContainer {
         //Setup Config
         cfg = new Configuration(event.getSuggestedConfigurationFile());
         loadConfig();
+        instance = this;
     }
 
     @Subscribe
